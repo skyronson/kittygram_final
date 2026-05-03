@@ -101,11 +101,6 @@ STATIC_ROOT = BASE_DIR / 'static'  # Абсолютный путь внутри 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'    # Абсолютный путь внутри контейнера
 
-if os.getenv('DOCKER_ENV', 'False') == 'True':
-    # В контейнере пути уже абсолютные
-    STATIC_ROOT = '/app/static'
-    MEDIA_ROOT = '/app/media'
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
