@@ -24,3 +24,49 @@ dockerhub_username: ваш_логин_на_докерхабе
 - Проект Kittygram доступен по доменному имени, указанному в `tests.yml`.
 - Пуш в ветку main запускает тестирование и деплой Kittygram, а после успешного деплоя вам приходит сообщение в телеграм.
 - В корне проекта есть файл `kittygram_workflow.yml`.
+
+## Проект контейнеры и CI/CD для Kittygram
+
+Проект подготовлен в рамках финального задания спринта №13 в целях получения навыков настройки и запуска проектов в контейнерах, настройки автоматического тестирования и деплоя проектов на удалённый сервер.
+
+## Стек технологий
+- Python 3.10
+- Django 3.2.3
+- gunicorn 20.1.0
+- PyYAML 6.0
+- djoser 2.1.0
+- djangorestframework 3.12.4
+- Pillow 9.0.1
+- webcolors 1.11.1
+- psycopg2-binary 2.9.3
+
+## Инструкция по запуску
+1. Форкнуть репозиторий проекта: skyronson/kittygram_final
+2. Клонировать форкнутый репозиторий
+3. В репозитории проекта во вкладке settings/Secrets and variables/actions определить ваши secrets:
+Логин и пароль вашего профиля на Docker.com:
+- DOCKER_PASSWORD
+- DOCKER_USERNAME
+
+Данные для отправки сообщения о деплое проекта:
+- TELEGRAM_TO (id получателя сообщения)
+- TELEGRAM_TOKEN (token робота)
+4. На сервере:
+
+- создайте директорию kittygram и создайте в ней файл .env. В файле .env определите значения переменных SECRET_KEY и ALLOWED_HOSTS;
+
+- определите настройки location в секции server в файле /etc/nginx/sites-enabled/default:
+```server {
+    server_name <IP-адрес вашего сервера> <доменное имя вашего сайта>;
+    location / {
+        proxy_set_header Host $http_host;
+        proxy_pass http://127.0.0.1:9000;    
+    }
+}
+ ```
+5. Сделайте пуш:
+```
+    git add .
+    git commit -m "<ваше сообщение коммита>"
+    git push
+```
